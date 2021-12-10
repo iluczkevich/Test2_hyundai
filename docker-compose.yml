@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+      target: production
+    ports:
+      - '127.0.0.1:3001:80'
+    env_file: .env
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:13-alpine
+    ports:
+      - '127.0.0.1:5432:5432'
+    env_file:
+      - .postgres.env
+    restart: unless-stopped
+    volumes:
+      - /data/rent-a-car/postgres/var/lib/postgresql/data:/var/lib/postgresql/data
